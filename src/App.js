@@ -47,7 +47,7 @@ function App() {
             <Route exact path="/" element={<TextForm showAlert={showAlert} heading="Enter the text below" mode={mode} />} />
           </Routes> */}
           {/* Render components directly without router */}
-          <TextForm showAlert={showAlert} heading="Enter the text below" mode={mode} />
+          <TextForm showAlert={showAlert} heading="Try TextUtils" mode={mode} />
           {/* <About /> */}
         </div>
       </>
