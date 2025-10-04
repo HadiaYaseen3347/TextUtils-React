@@ -2,13 +2,14 @@ import { useState } from 'react';
 import './App.css';
 import Navbar from './Components/Navbar';
 import TextForm from './Components/TextForm';
-// import About from './Components/About';
+import About from './Components/About';
 import Alerts from './Components/Alerts';
-// import {
-//   BrowserRouter as Router,
-//   Routes,
-//   Route
-// } from "react-router-dom";
+import {
+  HashRouter as Router,
+  Routes,
+  Route
+} from "react-router-dom";
+
 
 function App() {
   const [mode, setMode] = useState('light');
@@ -18,11 +19,11 @@ function App() {
     setAlert({
       message: message,
       type: type
-    })
+    });
     setTimeout(() => {
       setAlert(null);
     }, 1000);
-  }
+  };
 
   const toggleMode = () => {
     if (mode === 'light') {
@@ -34,24 +35,22 @@ function App() {
       document.body.style.backgroundColor = 'white';
       showAlert('Light mode has been enabled', 'success');
     }
-  }
+  };
 
   return (
-    // <Router>
+    <Router>
       <>
         <Navbar title="TextUtils" mode={mode} toggleMode={toggleMode} />
         <Alerts alert={alert} />
         <div className="container my-3">
-          {/* <Routes>
-            <Route exact path="/about" element={<About />} />
+          <Routes>
+            <Route exact path="/about" element={<About mode={mode} />} />
+
             <Route exact path="/" element={<TextForm showAlert={showAlert} heading="Enter the text below" mode={mode} />} />
-          </Routes> */}
-          {/* Render components directly without router */}
-          <TextForm showAlert={showAlert} heading="Try TextUtils" mode={mode} />
-          {/* <About /> */}
+          </Routes>
         </div>
       </>
-    // </Router>
+    </Router>
   );
 }
 
