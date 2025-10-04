@@ -10,14 +10,10 @@ export default function TextForm(props) {
 
   }
   const copyHandler = ()=>{
-    let text = document.getElementById('myBox');
-    text.select();
-    navigator.clipboard.writeText(text.value);
-    document.getSelection().removeAllRanges();
+    navigator.clipboard.writeText(text);
      props.showAlert('Text Copied!', 'success');
   }
   const handleLoClick = ()=>{
-   // console.log('UpperCase was clicked: ' + text);
     let newText = text.toLowerCase();
     setText(newText);
      props.showAlert('Converted to LowerCase!', 'success');
@@ -75,7 +71,7 @@ export default function TextForm(props) {
       </div>
       <div className="container mp-5" style={ {color: props.mode==='light'?'#022948ff':'white'}}>
         <h2>Your text Summary</h2>
-        <p>{text.split(" ").filter((element)=>{ return element.length!==0}).length} words, {text.length} characters</p>
+        <p>{text.split(/\s+/).filter((element)=>{ return element.length!==0}).length} words, {text.length} characters</p>
         <p>{0.008 * text.split(" ").filter((element)=>{ return element.length!==0}).length} Minutes read</p>
         <h2>Preview</h2>
         <p>{text.length > 0 ? text: 'Nothing to Preview'}</p>

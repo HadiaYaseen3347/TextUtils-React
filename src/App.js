@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 import Navbar from './Components/Navbar';
 import TextForm from './Components/TextForm';
@@ -7,9 +7,28 @@ import Alerts from './Components/Alerts';
 import {
   HashRouter as Router,
   Routes,
-  Route
+  Route,
+  Navigate,
+  useNavigate
 } from "react-router-dom";
 
+// Component to handle initial redirect when page is refreshed on /about
+function InitialRedirect() {
+  const navigate = useNavigate();
+  const ranRef = useRef(false);
+
+  useEffect(() => {
+    if (ranRef.current) return; // Run only once
+    ranRef.current = true;
+
+    const hash = window.location.hash || ''; // e.g., "#/about"
+    if (hash.includes('#/about')) {
+      navigate('/', { replace: true });
+    }
+  }, [navigate]);
+
+  return null;
+}
 
 function App() {
   const [mode, setMode] = useState('light');
@@ -39,17 +58,18 @@ function App() {
 
   return (
     <Router>
-      <>
-        <Navbar title="TextUtils" mode={mode} toggleMode={toggleMode} />
-        <Alerts alert={alert} />
-        <div className="container my-3">
-          <Routes>
-            <Route exact path="/about" element={<About mode={mode} />} />
+      <InitialRedirect />
 
-            <Route exact path="/" element={<TextForm showAlert={showAlert} heading="Enter the text below" mode={mode} />} />
-          </Routes>
-        </div>
-      </>
+      <Navbar title="TextUtils" mode={mode} toggleMode={toggleMode} />
+      <Alerts alert={alert} />
+
+      <div className="container my-3">
+        <Routes>
+          <Route path="/about" element={<About mode={mode} />} />
+          <Route path="/" element={<TextForm showAlert={showAlert} heading="Enter the text below" mode={mode} />} />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </div>
     </Router>
   );
 }
